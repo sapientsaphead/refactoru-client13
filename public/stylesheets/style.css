@@ -1,0 +1,18 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+h1 {
+	font-family: 'Monofett', cursive;
+	font-size: 36px;
+	text-shadow: 1px 1px 1px #CCFFFF;
+}
+#search {
+	width: 50%;
+	padding: 5px 0px 5px 20px;
+	background-color: #CCFFFF;
+}
