@@ -27,8 +27,8 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+// app.get('/', routes.index);
+// app.get('/users', user.list);
 
 app.get('/search', function(req, res){
 	var data = {
@@ -70,28 +70,57 @@ app.get('/search', function(req, res){
 	// was hoping to use this to search through objects and sub-objects but naming
 	// convention is too different
 	var results = function find(o, id) {
-		if (o.programming === id) {
-		    return o.programming;
+		var searchTerm = id.toLowerCase();
+		var programmingKey = id[0].toUpperCase() + id.substring(1).toLowerCase();
+		var engineKey = id.toLowerCase();
+
+		if ('programming' === searchTerm) {
+			var arr = [];
+			Object.keys(data.programming).forEach(function(key) {
+				arr.push(key[0].toUpperCase() + key.substring(1).toLowerCase() + ": " + data.programming[key]['desc']);
+			});
+		    return {queryTerm: programmingKey,
+		    		queryArray: arr}
 		}
-		else if (o['search engines'] === id) {
-			return o['search engines'];
+		else if ('search engines' === searchTerm) {
+			var arr = [];
+			Object.keys(data['search engines']).forEach(function(key) {
+				arr.push(key[0].toUpperCase() + key.substring(1).toLowerCase() + ": " + data['search engines'][key]['desc']);
+			});
+		    return {queryTerm: programmingKey,
+		    		queryArray: arr}
 		}
-		else { 
-		 	return 'sooo tired!'
+		else if (programmingKey in o['programming']) {
+
+		 	return {
+		 		query : programmingKey,
+		 		desc : o.programming[programmingKey]['desc']
+			}
 		}
+
+		//this breaks it
+		else if (engineKey in o['search engines']) {
+		 
+		 	return {
+		 		query : programmingKey,
+		 		desc : o['search engines'][engineKey]['desc']
+			}
+		}
+		return ("something went wrong");
 	}
+	
 
 	// console.log(data)
 	console.log(results(data, req.query['search']));
 
 	res.send(results(data, req.query['search']));
 
-})
+});
 
+app.get('/', function(req, res){
+	res.render('index');
+});
 
-app.get('/results', function(req, res){
-	res.render('index', {name: "search"})
-})
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

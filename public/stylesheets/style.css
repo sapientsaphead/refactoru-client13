@@ -1,18 +1,46 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	padding: 50px;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+	color: #00B7FF;
+}
+.effect { 
+	display:block;
+	overflow:hidden;
 }
 h1 {
 	font-family: 'Monofett', cursive;
 	font-size: 36px;
 	text-shadow: 1px 1px 1px #CCFFFF;
 }
+h2 {
+	font-family: sans-serif;
+	font-size: 36px;
+	font-weight: bolder;
+}
 #search {
 	width: 50%;
 	padding: 5px 0px 5px 20px;
 	background-color: #CCFFFF;
+}
+h1 span.up { 
+	border: 1px solid white;
+	float:left;
+	margin: 1px;
+	-webkit-transition: margin 0.5s ease-out; 
+	-moz-transition: margin 0.5s ease-out; 
+	-o-transition: margin 0.5s ease-out; } 
+
+h1 span.up:hover { 
+	cursor: default;
+	/*padding-left: 8px;*/
+	margin-top: 5px;
+}
+.body {
+	margin-top: 10px;
+}
+li {
+	padding: 1px;
 }
