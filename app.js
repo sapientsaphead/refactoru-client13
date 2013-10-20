@@ -98,7 +98,6 @@ app.get('/search', function(req, res){
 			}
 		}
 
-		//this breaks it
 		else if (engineKey in o['search engines']) {
 		 
 		 	return {
