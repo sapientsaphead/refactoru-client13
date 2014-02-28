@@ -1,101 +1,35 @@
-## Module Patterns
+## CLIENT13: Handlebars: Mock Search Engine
 
 #### Objective
 
-Write two functions defined within a module. Use three different module techniques: object literal, the module pattern, and the revealing module pattern.
-
-The Repeater module should contain the following two methods:
-
-* __repeatString(str, n)__ - Returns a string repeated n times:
-  e.g. repeatString('cat', 3) should return 'catcatcat'.
-* __repeatFunction(f, n)__ - Calls a function n times.
-  e.g. repeatFunction(function() { console.log('hi'); }, 3) should print out 'hi' to the console three times in a row.
+Create a data driven UI using Handlebars.
 
 #### Skills
-* Immediately Invoked Function Expression (IIFE)
-* Module Pattern
-* Revealing Module Pattern
-* Test Driven Development
+* Creating an Express app
+* Understanding the relationship between client and server
+* Creating Handlebars templates
+* AJAX
+* jQuery
 
 #### Resources
-* [Immediately Invoked Function Expression (IIFE)](http://benalman.com/news/2010/11/immediately-invoked-function-expression)
-* [Using Objects to Organize Your Code](http://rmurphey.com/blog/2009/10/15/using-objects-to-organize-your-code)
-* [Learning Javascript Design Patterns](http://addyosmani.com/resources/essentialjsdesignpatterns/book)
+* [handlebarsjs.com](http://handlebarsjs.com)
+* [dummy data](http://fall2013.refactoru.com/public/samples/search-data.js)
 
 #### Requirements
 
-#### Part I: Organizing code with object literals
+#### Part I
+1. Setup an Express Server
+2. Define an Express route, "/search" in your Express app
+3. Add the dummy data object listed above as a variable inside of your "/search" route
+4. Create a form using Jade that contains a search input (like Google)
+5. Add a div below it with the ID "results"
+6. Create a Handlebars template for your "results" div
+7. When a user enters a value into the search box and presses "Enter", send the entered search term via AJAX to your "/search" endpoint.
+8. In your "/search" route take the search term that was setn to your server and find its corresponding description in the "data" object.
+9. Use `res.send` to send the JSON back to the client.
+10. When you receive the response from the server, compile your Handlebars template `Handlebars.compile` passing the data to it.
+11. Take the resulting Handlebars string and append it to your results div using jQuery.
 
-1. Define an object literal with two properties: repeatString and repeatFunction:
-	```
-	var Repeater = {
-	 repeatString: ...,
-	 repeatFunction: ...
-	};
-	```
-
-2. Set up a Jasmine unit test with the below test spec. Follow the instructions in Test Drive 102 if you need a reminder on how to create unit tests with Jasmine.
-	```
-	describe('repeatString', function() {
-	 it('should return a string repeated n times', function() {
-	  expect(Repeater.repeatString('cat', 3)).toEqual('catcatcat');
-	 });
-	});
-	
-	describe('repeatFunction', function() {
-	 it('should call a function n times', function() {
-	  var str = 'oh';
-	  var write = function() { str += 'hi'; };
-	  Repeater.repeatFunction(write, 3);
-	  expect(str).toEqual('ohhihihi');
-	 });
-	});
-	```
-
-3. Implement repeatString and repeatFunction to make the tests pass (test driven development).
-
-__Congratulations!__ Since your functions are defined inside the Repeater object, they are self-contained and won't conflict with global functions with the same name. This demonstrates the principle of __encapsulation__; your code is grouped together and separated from other code within your project.
-
-#### Part II: Organizing code with the module pattern
-
-1. Define an [Immediately Invoked Function Expression (IIFE)](http://benalman.com/news/2010/11/immediately-invoked-function-expression)
-	```
-	var Repeater = (function() {
-	 ...
-	});
-	```
-
-2. Inside the IIFE, return an object literal with repeatString and repeatFunction defined.
-3. Refresh your test runner and ensure the tests still pass.
-4. Create a new function repeatMore which is the same as repeatString but only takes a single argument (the string) and repeats the string once the first time it is called, twice the second time it is called, etc. You will need to declare a local variable count which keeps track of how many times you have called the function.
-e.g.
-
-	```
-	Repeater.repeatMore('cat'); // cat
-	Repeater.repeatMore('dog'); // dogdog
-	Repeater.repeatMore('bat'); // batbatbat
-	Repeater.repeatMore('lion'); // lionlionlionlion
-	Repeater.repeatMore('lemur'); // lemurlemurlemurlemurlemur
-	```
-
-5. Refresh your test runner and ensure the tests still pass.
-6. Add the following code to your test spec to test that the local variable inside your IIFE is not accessible in the global scope. (If you didn't name your variable count, change the test below to use your variable name.)
-
-	```
-	expect(typeof count).toBe('undefined');
-	```
-
-7. Refresh your test runner and ensure the tests still pass.
-
-	It makes sense to keep variables private to your module (i.e. not accessible outside your module). The public interface (the variables or functions that users of your module access) is thus cleaner, easier to understand, and less susceptible to conflicts. This is what the module pattern accomplishes through the handy scoping effects of the IIFE.
-
-#### Part III: Organizing code with the revealing module pattern
-
-1. Rewrite the code from Part II to use the Revealing Module Pattern as explained in the lecture and in [Essential JS Design Patterns](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#revealingmodulepatternjavascript).
-2. Refresh your test runner and ensure the tests still pass.
-3. Create a new function on the module called repeatFunctionTwice which, unsurprisingly, calls repeatFunction twice.
-
-	This may not seem like a big accomplishment, but in the previous module pattern, you couldn't access repeatFunction from repeatFunctionTwice. This is because the object literal on which they are defined is being returned immediately, so you can't access other properties from within the object. In the revealing module pattern, because variables are first declared in the local scope before being returned in an object, they have access to each other.
-
-__Success!__ You now have three techniques for organizing and encapsulating your code. Whether you are writing code on a team or writing libraries for thousands of developers you will have complete control over which variables are publically accessible and which are internal to your script.
-
+#### Bonus
+Get really fancy with the search engine.
+1. Modify your code so that you are able to search for any text within the "dummy data" object.
